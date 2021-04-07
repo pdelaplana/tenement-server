@@ -25,3 +25,7 @@ export function mapAddress(source: Address | undefined, target: Address | undefi
   }
   return target;
 }
+
+export function mapDate(source: Date|undefined, target: Date|undefined) {
+  return source ? new Date(source) : ((source === null) ? undefined : target);
+}

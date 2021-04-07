@@ -1,4 +1,3 @@
-
 import { Identifier } from '../../domain/entities/identifier';
 import { Person } from '../../domain/entities/person';
 
@@ -8,6 +7,7 @@ export const personConverter = (db: FirebaseFirestore.Firestore, organizationId?
       const { id, ...rest } = person;
       return {
         ...rest,
+        birthDate: rest.birthDate || null,
       };
     },
 

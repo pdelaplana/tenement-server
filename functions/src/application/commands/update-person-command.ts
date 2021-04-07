@@ -6,7 +6,7 @@ import { PersonUpdatedEvent } from '../../domain/events/person-events';
 import { Person } from '../../domain/entities/person';
 import { Gender } from '../../domain/entities/types';
 import { Address } from '../../domain/value-objects/address';
-import { mapAddress } from '../helpers';
+import { mapAddress, mapDate } from '../helpers';
 
 
 export interface UpdatePersonCommandPayload {
@@ -50,21 +50,8 @@ const commandHandler = (
       person.firstName = payload.firstName || person.firstName;
       person.lastName = payload.lastName || person.lastName;
       person.gender = payload.gender || person.gender;
-      person.birthDate = (payload.birthDate ? new Date(payload.birthDate) : null) || person.birthDate;
-      if (payload.homeAddress) {
-        if (person.homeAddress) {
-          person.homeAddress.streetAddress1 = payload.homeAddress.streetAddress1 || person.homeAddress.streetAddress1;
-          person.homeAddress.streetAddress2 = payload.homeAddress.streetAddress2 || person.homeAddress.streetAddress2;
-          person.homeAddress.streetAddress3 = payload.homeAddress.streetAddress3 || person.homeAddress.streetAddress3;
-          person.homeAddress.unit = payload.homeAddress.unit || person.homeAddress.unit;
-          person.homeAddress.city = payload.homeAddress.city || person.homeAddress.city;
-          person.homeAddress.locality = payload.homeAddress.locality || person.homeAddress.locality;
-          person.homeAddress.postCode = payload.homeAddress.postCode || person.homeAddress.postCode;
-          person.homeAddress.country = payload.homeAddress.country || person.homeAddress.country;
-        } else {
-          person.homeAddress = payload.homeAddress;
-        }
-      }
+      person.birthDate = mapDate(payload.birthDate, person.birthDate);
+      person.homeAddress = mapAddress(payload.homeAddress, person.workAddress);
       person.workAddress = mapAddress(payload.workAddress, person.workAddress);
       person.primaryPhone = payload.primaryPhone || person.primaryPhone;
       person.cellPhone = payload.cellPhone || person.cellPhone;
