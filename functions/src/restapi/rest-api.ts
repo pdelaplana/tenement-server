@@ -7,6 +7,7 @@ import { organizationController } from './controllers/organization-controller';
 import { propertiesController } from './controllers/properties-controller';
 import { developersController } from './controllers/developers-controller';
 import { unitsController } from './controllers/units-controller';
+import { personsController } from './controllers/persons-controller';
 
 
 export const restApi = (db: FirebaseFirestore.Firestore) => {
@@ -26,7 +27,7 @@ export const restApi = (db: FirebaseFirestore.Firestore) => {
   main.use('/v1/properties', propertiesController(db));
   main.use('/v1/developers', developersController(db));
   main.use('/v1/properties/:propertyId/units', unitsController(db));
-
+  main.use('/v1/persons', personsController(db));
 
   return main;
 };

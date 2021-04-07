@@ -7,6 +7,8 @@ import { Property } from './domain/entities/property';
 import { propertyConverter } from './infrastructure/repository/property-converter';
 import { Developer } from './domain/entities/developer';
 import { Unit } from './domain/entities/unit';
+import { Person } from './domain/entities/person';
+import { personConverter } from './infrastructure/repository/person-converter';
 
 export const userService = () => new FirebaseUserService();
 
@@ -27,6 +29,12 @@ export const developerRepository = (db: FirebaseFirestore.Firestore, context: Re
 export const unitRepository = (db: FirebaseFirestore.Firestore, context: RepositoryContext, propertyId: string) =>
   new FireStoreRepository<Unit>(context, db, 'units',
       `organizations/${context.organizationId}/properties/${propertyId}`);
+
+export const personRepository = (db: FirebaseFirestore.Firestore, context: RepositoryContext) =>
+  new FireStoreRepository<Person>(context, db, 'persons',
+      `organizations/${context.organizationId}`,
+      personConverter(db, context.organizationId));
+
 
 export class RepositoryFactory {
   constructor(
